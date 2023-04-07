@@ -26,7 +26,7 @@ import {storeAsyncData} from '../../storage/RNAsyncStorage';
 import useFetchAsyncData from '../../hooks/useFetchData';
 import useTimerDispatch from '../../hooks/useTimerDispatch';
 
-// const IOS_SOUND = require('../../../ios/sounds/ios-sound.mp3');
+const notificationSound = require('../../assets/sounds/notificationSound.mp3');
 
 function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   const {
@@ -63,15 +63,15 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
 
   const timerShown = millisecondsToTime(timer);
   const timerIdRef = useRef<NodeJS.Timer>();
-  // const alertSound = useMemo( //FIXME
-  //   () =>
-  //     new Sound(IOS_SOUND, error => {
-  //       if (error) {
-  //         console.log('Error loading sound: ', error);
-  //       }
-  //     }),
-  //   [],
-  // );
+  const alertSound = useMemo(
+    () =>
+      new Sound(notificationSound, error => {
+        if (error) {
+          console.log('Error loading sound: ', error);
+        }
+      }),
+    [],
+  );
 
   const toggleTimer = useCallback(() => {
     dispatchIsRunning(!isRunning);
@@ -154,18 +154,18 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
       dispatchRemoveFirstSchedule(breaks);
       setScheduleElementCompleted(prev => !prev);
       if (vibration) {
-        Vibration.vibrate(1000);
+        Vibration.vibrate(1000); //FIXME check if it will crash on device
       }
-      // if (sound) {
-      //   alertSound.play();
-      // }
+      if (sound) {
+        alertSound.play();
+      }
     }
   }, [
     timer,
     dispatchIsRunning,
     vibration,
     sound,
-    // alertSound,
+    alertSound,
     dispatchRemoveFirstSchedule,
     breaks,
   ]);

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
+import {moderateScale} from 'react-native-size-matters';
 import {Svg, Rect, Ellipse, SvgProps} from 'react-native-svg';
 import {View, PixelRatio, StyleSheet} from 'react-native';
 import {CircularProgress} from './CircularProgress';
