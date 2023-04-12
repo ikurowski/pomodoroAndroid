@@ -1,19 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import Navigation from './src/navigation/Index';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StatusBar} from 'react-native';
 import store from './src/app/store';
 import {colors} from './src/styles/styles';
-import {Navigation as N} from 'react-native-navigation';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 function App() {
-  N.setDefaultOptions({
-    statusBar: {
-      backgroundColor: colors.secondary,
-      style: 'light',
-    },
-  });
+  useEffect(() => {
+    setTransparentNavigationBar();
+  }, []);
+
+  const setTransparentNavigationBar = () => {
+    changeNavigationBarColor('transparent', true);
+  };
+
   return (
     <SafeAreaProvider>
       <Provider store={store}>
