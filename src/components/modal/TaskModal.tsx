@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {BlurView} from 'expo-blur';
 import {StyleSheet, View, TextInput, Alert} from 'react-native';
 import Modal from 'react-native-modal';
 import {moderateScale} from 'react-native-size-matters';
@@ -25,6 +24,7 @@ import {useDispatch, useSelector} from 'react-redux';
 //stores
 import {addTask, editTask} from '../../features/tasksSlice';
 import {generateSchedule} from '../../utils/generateSchedule';
+import {BlurView} from '@react-native-community/blur';
 
 function TaskModal({
   title,
@@ -140,47 +140,47 @@ function TaskModal({
       scrollTo={() => {}} //library bug workaround
       scrollOffset={1} //library bug workaround
       onSwipeComplete={() => setModalVisible(false)}
-      swipeDirection="down">
+      swipeDirection="down"
+      statusBarTranslucent={true}>
       <View style={styles.blurContainer}>
-        <BlurView intensity={30} tint={'light'} style={styles.blurContent}>
-          <Handle style={styles.handle} />
-          <NunitoSemiBold style={styles.tile} size={20}>
-            {title}
-          </NunitoSemiBold>
-          <View style={styles.cardHeader}>
-            <NunitoBold size={16}>Task name</NunitoBold>
-          </View>
-          <TextContainer>
-            <TextInput
-              maxLength={80}
-              placeholder="Task name..."
-              value={task.name}
-              onChangeText={onChangeTextHandler}
-              placeholderTextColor={colors.card}
-              style={{...styles.textInput, color: colors.text}}
-            />
-          </TextContainer>
-          <DurationComponentInModal
-            task={task}
-            setTask={setTask}
-            createUpdateFunction={createUpdateFunction}
+        <BlurView blurType={'light'} style={styles.blurContent} />
+        <Handle style={styles.handle} />
+        <NunitoSemiBold style={styles.tile} size={20}>
+          {title}
+        </NunitoSemiBold>
+        <View style={styles.cardHeader}>
+          <NunitoBold size={16}>Task name</NunitoBold>
+        </View>
+        <TextContainer>
+          <TextInput
+            maxLength={80}
+            placeholder="Task name..."
+            value={task.name}
+            onChangeText={onChangeTextHandler}
+            placeholderTextColor={colors.card}
+            style={{...styles.textInput, color: colors.text}}
           />
-          <View style={styles.cardHeader}>
-            <NunitoBold size={16}>Group</NunitoBold>
-          </View>
-          <CardWithSwitch
-            title="Current task"
-            titleColor={colors.text}
-            isEnabled={task.currentTask}
-            toggleSwitch={toggleSwitch}
-          />
-          <BasicButton
-            moreStyles={styles.applyButton}
-            filled
-            onPress={onButtonPressHandler}>
-            Apply
-          </BasicButton>
-        </BlurView>
+        </TextContainer>
+        <DurationComponentInModal
+          task={task}
+          setTask={setTask}
+          createUpdateFunction={createUpdateFunction}
+        />
+        <View style={styles.cardHeader}>
+          <NunitoBold size={16}>Group</NunitoBold>
+        </View>
+        <CardWithSwitch
+          title="Current task"
+          titleColor={colors.text}
+          isEnabled={task.currentTask}
+          toggleSwitch={toggleSwitch}
+        />
+        <BasicButton
+          moreStyles={styles.applyButton}
+          filled
+          onPress={onButtonPressHandler}>
+          Apply
+        </BasicButton>
       </View>
     </Modal>
   );
@@ -201,10 +201,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden', // library bug workaround
     height: '80%',
     width: '100%',
+    paddingHorizontal: 16,
   },
   blurContent: {
-    flex: 1,
-    paddingHorizontal: 16,
+    ...StyleSheet.absoluteFillObject,
   },
   cardHeader: {
     marginVertical: moderateScale(6),
