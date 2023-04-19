@@ -6,13 +6,13 @@ import NavIcons from './NavIcons';
 import NunitoRegular from '../components/fonts/NunitoRegular';
 import {Route} from '@react-navigation/native';
 import {MaterialTopTabBarProps} from '@react-navigation/material-top-tabs';
-import {BlurView} from 'expo-blur';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
 import {moderateScale} from 'react-native-size-matters';
+import {BlurView} from '@react-native-community/blur';
 
 interface TabBarProps extends MaterialTopTabBarProps {
   isRunning: boolean;
@@ -54,7 +54,7 @@ const TabBar = ({
     <Animated.View style={[styles.outerContainer, animatedStyle]}>
       <View style={styles.innerContainer}>
         <View style={styles.blurContainer}>
-          <BlurView intensity={30} style={styles.blur} tint={'dark'} />
+          <BlurView blurAmount={100} style={styles.blur} blurType={'light'} />
         </View>
         {state.routes.map((route: Route<string>, index: number) => {
           const {options} = descriptors[route.key];
