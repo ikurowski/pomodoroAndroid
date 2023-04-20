@@ -23,7 +23,7 @@ export const theme: Theme = {
       border: colors.black,
       card: colors.lightGrey,
       text: colors.white,
-      notification: colors.primary,
+      notification: colors.lightestGrey,
     },
   },
   fontSize: {

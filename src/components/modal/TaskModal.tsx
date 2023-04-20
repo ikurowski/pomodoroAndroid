@@ -24,7 +24,6 @@ import {useDispatch, useSelector} from 'react-redux';
 //stores
 import {addTask, editTask} from '../../features/tasksSlice';
 import {generateSchedule} from '../../utils/generateSchedule';
-import {BlurView} from '@react-native-community/blur';
 
 function TaskModal({
   title,
@@ -137,13 +136,12 @@ function TaskModal({
       backdropOpacity={0.38}
       onBackdropPress={backdropPressHandle}
       propagateSwipe={true}
-      scrollTo={() => {}} //library bug workaround
-      scrollOffset={1} //library bug workaround
+      // scrollTo={() => {}} //library bug workaround
+      // scrollOffset={1} //library bug workaround
       onSwipeComplete={() => setModalVisible(false)}
       swipeDirection="down"
       statusBarTranslucent={true}>
-      <View style={styles.blurContainer}>
-        <BlurView blurType={'light'} style={styles.blurContent} />
+      <View style={{...styles.innerContainer, backgroundColor: colors.background}}>
         <Handle style={styles.handle} />
         <NunitoSemiBold style={styles.tile} size={20}>
           {title}
@@ -195,16 +193,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     margin: 0,
   },
-  blurContainer: {
+  innerContainer: {
     borderTopLeftRadius: 13,
     borderTopRightRadius: 13,
     overflow: 'hidden', // library bug workaround
-    height: '80%',
+    height: '85%',
     width: '100%',
     paddingHorizontal: 16,
-  },
-  blurContent: {
-    ...StyleSheet.absoluteFillObject,
   },
   cardHeader: {
     marginVertical: moderateScale(6),
