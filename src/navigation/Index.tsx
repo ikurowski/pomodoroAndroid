@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {LogBox} from 'react-native';
+import {LogBox, StatusBar} from 'react-native';
 import {RootStackParamList} from '../types/navigation';
 
 //components
@@ -32,31 +32,46 @@ function Navigation() {
     (reduxState: TimerRootState) => reduxState.timer,
   );
 
+  const {
+    navigation: {colors},
+  } = useTheme();
+
   return (
-    <NavigationContainer theme={navigationTheme}>
-      <Tab.Navigator
-        initialRouteName="Timer"
-        screenOptions={{
-          swipeEnabled: isRunning ? false : !isPaused,
-        }}
-        sceneContainerStyle={{
-          paddingTop: insets.top,
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-        }}
-        tabBarPosition="bottom"
-        tabBar={props => (
-          <TabBar isRunning={isRunning} isPaused={isPaused} {...props} />
-        )}>
-        <Tab.Screen name="Tasks" component={Tasks} options={{title: 'Tasks'}} />
-        <Tab.Screen name="Timer" component={Timer} options={{title: 'Timer'}} />
-        <Tab.Screen
-          name="Settings"
-          component={Settings}
-          options={{title: 'Settings'}}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <>
+      <StatusBar backgroundColor={colors.background} />
+      <NavigationContainer theme={navigationTheme}>
+        <Tab.Navigator
+          initialRouteName="Timer"
+          screenOptions={{
+            swipeEnabled: isRunning ? false : !isPaused,
+          }}
+          sceneContainerStyle={{
+            paddingTop: insets.top,
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+          }}
+          tabBarPosition="bottom"
+          tabBar={props => (
+            <TabBar isRunning={isRunning} isPaused={isPaused} {...props} />
+          )}>
+          <Tab.Screen
+            name="Tasks"
+            component={Tasks}
+            options={{title: 'Tasks'}}
+          />
+          <Tab.Screen
+            name="Timer"
+            component={Timer}
+            options={{title: 'Timer'}}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={Settings}
+            options={{title: 'Settings'}}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
 
