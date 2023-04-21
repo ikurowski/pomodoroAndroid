@@ -12,6 +12,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import {moderateScale} from 'react-native-size-matters';
+import {BlurView} from '@react-native-community/blur';
 
 interface TabBarProps extends MaterialTopTabBarProps {
   isRunning: boolean;
@@ -51,11 +52,10 @@ const TabBar = ({
 
   return (
     <Animated.View style={[styles.outerContainer, animatedStyle]}>
-      <View
-        style={{
-          ...styles.innerContainer,
-          backgroundColor: colors.notification,
-        }}>
+      <View style={styles.innerContainer}>
+        <View style={styles.blurContainer}>
+          <BlurView blurAmount={100} style={styles.blur} blurType={'light'} />
+        </View>
         {state.routes.map((route: Route<string>, index: number) => {
           const {options} = descriptors[route.key];
 
@@ -130,7 +130,14 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 7,
     paddingHorizontal: 25,
+  },
+  blur: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  blurContainer: {
+    ...StyleSheet.absoluteFillObject,
     borderRadius: 60,
+    overflow: 'hidden',
   },
   buttonContainer: {
     alignItems: 'center',
